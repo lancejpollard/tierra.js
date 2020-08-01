@@ -269,6 +269,7 @@ function createKeyValue(key, val) {
 function createMap(map) {
   let arr = []
   Object.keys(map).forEach(key => {
+    if (map[key] == null) return
     createKeyValue(key, map[key]).forEach(x => {
       arr.push(`${x}`)
     })
