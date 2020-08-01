@@ -84,3 +84,51 @@ t.forEach(blob => {
   }
 })
 ```
+
+```
+terraform {
+  required_version = ">= 0.12"
+
+  required_providers {
+    aws = "~> 3.0.0"
+  }
+}
+
+provider "aws" {
+  region = "us-west-1"
+}
+
+module "staging" {
+  env = "staging"
+  source = "./env"
+}
+
+resource "aws_vpc" "vpc" {
+  name = "foo"
+
+  bar {
+    baz = 123
+
+    bang {
+      eleven = true
+    }
+  }
+
+  baz = {
+    a = 1
+    b = true
+    c = "three"
+  }
+}
+```
+
+```
+resource "aws_lb" "lb" {
+  foo = "bar"
+}
+
+variable "var1" {
+  type = string
+  default = "foo"
+}
+```
