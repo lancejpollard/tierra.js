@@ -1,0 +1,28 @@
+{
+  "name": "tierra.js",
+  "version": "1.0.0",
+  "description": "Terraform Script Builder in JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lancejpollard/tierra.js.git"
+  },
+  "keywords": [
+    "terraform",
+    "builder",
+    "cloud",
+    "infrastructure"
+  ],
+  "author": "Lance Pollard <lp@elk.fm>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lancejpollard/tierra.js/issues"
+  },
+  "homepage": "https://github.com/lancejpollard/tierra.js#readme",
+  "files": [
+    "index.js"
+  ]
+}
