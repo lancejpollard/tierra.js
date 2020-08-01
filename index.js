@@ -5,10 +5,11 @@ function tierra() {
   return new File()
 }
 
-function File(name, head) {
+function File(name, head, back) {
   Object.defineProperty(this, 'base', { value: [] })
   Object.defineProperty(this, 'name', { value: name })
   Object.defineProperty(this, 'head', { value: head || [this] })
+  Object.defineProperty(this, 'back', { value: back })
 }
 
 File.prototype.resource = function(obj) {
@@ -47,9 +48,13 @@ File.prototype.data = function(obj) {
 }
 
 File.prototype.module = function(obj) {
-  const head = new File(obj.type)
+  const head = new File(obj.type, this.head, this)
+  const relative = this.back
+    ? '..'
+    : '.'
   this.head.push(head)
-  obj.blob.source = `./${obj.type}`
+  obj.blob = obj.blob || {}
+  obj.blob.source = `${relative}/${obj.type}`
   this.base.push({
     type: 'module',
     blob: obj,
@@ -225,19 +230,24 @@ function createKeyValue(key, val) {
   if (typ === 'object') {
     if (Array.isArray(val)) {
       arr.push(`${key} = [`)
-      val.forEach(item => {
+      val.forEach((item, i) => {
         createValue(item).forEach(x => {
           arr.push(`  ${x}`)
         })
+        if (i < val.length - 1) {
+          arr[arr.length - 1] = arr[arr.length - 1] + ','
+        }
       })
       arr.push(`]`)
     } else if (val.type === 'block') {
-      arr.push(``)
-      arr.push(`${key} {`)
-      createMap(val.blob).forEach(x => {
-        arr.push(`  ${x}`)
+      val.blob.forEach(blob => {
+        arr.push(``)
+        arr.push(`${key} {`)
+        createMap(blob).forEach(x => {
+          arr.push(`  ${x}`)
+        })
+        arr.push(`}`)
       })
-      arr.push(`}`)
     } else if (val.type === 'map') {
       arr.push(``)
       arr.push(`${key} = {`)
